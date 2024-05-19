@@ -19,7 +19,7 @@ const icons = {
 };
 
 export default function App() {
-    const [city, setCity] = useState("Loading...");
+    const [city, setCity] = useState("Loading");
     const [ok, setOk] = useState(true);
     const [days, setDays] = useState([]);
 
@@ -44,6 +44,13 @@ export default function App() {
         );
     };
 
+    const dateChange = (date) => {
+        const newDate = new Date(date);
+        const month = (newDate.getMonth() + 1).toString().padStart(2, "0");
+        const day = newDate.getDate().toString().padStart(2, "0");
+        return `${month}.${day}`;
+    };
+
     useEffect(() => {
         getWeather();
     }, []);
@@ -66,6 +73,7 @@ export default function App() {
                 ) : (
                     days.map((d, idx) => (
                         <View key={idx} style={styles.day}>
+                            <Text style={{ ...styles.description, marginTop: 50 }}>{dateChange(d.dt_txt)}</Text>
                             <View
                                 style={{
                                     flexDirection: "row",
@@ -110,8 +118,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     temp: {
+        marginTop: -10,
         fontSize: 100,
-        marginTop: 50,
         fontWeight: "600",
         color: "#FFF7E0",
     },
